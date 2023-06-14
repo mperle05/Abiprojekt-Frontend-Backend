@@ -33,7 +33,7 @@ docker-compose build
 docker-compose up
 ````
 
-# Deploy to heroku
+# Deploy to heroku from local docker image
 
 ````
 heroku login
@@ -52,7 +52,11 @@ docker login --username=maximilian@perle.name --password=$(heroku auth:token) re
 
 https://react-mperle05.herokuapp.com/
 
+
+# Pushing to Git for fully automatic deployment
+
 ````
+git add --all
 git commit -m "Update"
 git push origin master
 ````

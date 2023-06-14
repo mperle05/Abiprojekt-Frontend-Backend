@@ -19,10 +19,10 @@ jobs:
       - name: Build the Docker image
         run: | 
           docker-compose build
-          docker tag abi23_frontend:latest ghcr.io/aifrog/abi23_frontend:latest
-          docker tag abi23_backend:latest ghcr.io/aifrog/abi23_backend:latest
-          docker push ghcr.io/aifrog/abi23_frontend:latest
-          docker push ghcr.io/aifrog/abi23_backend:latest
+          docker tag abiprojekt-frontend-backend_frontend:latest ghcr.io/aifrog/abiprojekt-frontend-backend_frontend:latest
+          docker tag abiprojekt-frontend-backend_backend:latest ghcr.io/aifrog/abiprojekt-frontend-backend_backend:latest
+          docker push ghcr.io/aifrog/abiprojekt-frontend-backend_frontend:latest
+          docker push ghcr.io/aifrog/abiprojekt-frontend-backend_backend:latest
       # - name: Push the Docker Image to Heroku Container Registry for the frontend
       #   run: | 
       #     docker tag ghcr.io/aifrog/abi23_frontend:latest registry.heroku.com/react-mperle05/web
