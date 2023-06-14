@@ -16,7 +16,7 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build the Docker image
+      - name: Build the Docker image and release on registry @ Github (not docker.com)
         run: | 
           docker-compose build
           docker tag abiprojekt-frontend-backend_frontend:latest ghcr.io/mperle05/abiprojekt-frontend-backend_frontend:latest
