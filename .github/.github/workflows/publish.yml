@@ -1,0 +1,53 @@
+name: publish
+on: [push]
+env:
+  HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+  HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+jobs:
+  publish-docker-image:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+    steps:
+      - uses: actions/checkout@v2
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build the Docker image
+        run: | 
+          docker-compose build
+          docker tag abi23_frontend:latest ghcr.io/aifrog/abi23_frontend:latest
+          docker tag abi23_backend:latest ghcr.io/aifrog/abi23_backend:latest
+          docker push ghcr.io/aifrog/abi23_frontend:latest
+          docker push ghcr.io/aifrog/abi23_backend:latest
+      # - name: Push the Docker Image to Heroku Container Registry for the frontend
+      #   run: | 
+      #     docker tag ghcr.io/aifrog/abi23_frontend:latest registry.heroku.com/react-mperle05/web
+      #     docker push registry.heroku.com/react-mperle05/web
+      #     heroku create react-mperle05
+      #     heroku container:push web -a react-mperle05
+      #     heroku container:release web -a react-mperle05
+      # - name: Push the Docker Image to Heroku Container Registry for the backend
+      #   run: | 
+      #       docker tag ghcr.io/aifrog/abi23_backend:latest  registry.heroku.com/backend-mperle05/web
+      #       docker push registry.heroku.com/backend-mperle05/web
+      #       heroku create backend-mperle05
+      #       heroku container:push web -a backend-mperle05
+      #       heroku container:release web -a backend-mperle05
+      - name: Push frontend to Heroku (PROBLEM NEW BUILD REQUIRED)
+        uses: gonuit/heroku-docker-deploy@v1.3.3
+        with:
+          email: ${{ secrets.HEROKU_EMAIL }}
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+          dockerfile_directory: ./frontend
+          dockerfile_name: Dockerfile
+          docker_options: "--no-cache"
+          process_type: web
+ 
+          
+
+
